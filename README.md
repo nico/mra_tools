@@ -13,7 +13,12 @@ match at ldst
 0011 1 0 0 10 0 000000 0000 00 0000000000 
 xx11 _ _ _ 1x _      _    _  _          _ 
 done: ldst_pos
-
+  size = n bit 31 ... 30 = 00
+  V = n bit 26 ... 26 = 0
+  opc = n bit 23 ... 22 = 00
+  imm12 = n bit 21 ... 10 = 000000000000
+  Rn = n bit 9 ... 5 = 00000
+  Rt = n bit 4 ... 0 = 00000
 ```
 
 # Tools to extract ARM's Machine Readable Architecture Specification.

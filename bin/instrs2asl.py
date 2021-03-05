@@ -965,7 +965,7 @@ def main():
 
     if args.decode:
       n = format(args.decode, '032b')
-      print('matching', n)
+      print('matching n =', n)
 
       def stripquotes(s):
         if s[0] == "'" and s[-1] == "'": return s[1:-1]
@@ -1009,6 +1009,10 @@ def main():
               label, allocated, predictable = c
               print('done:', label)
               children = []
+              if allocated and predictable:
+                (fields, (ic, hdr, rows)) = classes[label]
+                for fnm, hi, wd in fields:
+                    print(' ', fnm, '= n bit', hi, '...', hi-wd+1, '=', n[::-1][hi-wd+1:hi+1][::-1])
             break
 
     # print("Live:", " ".join(live))
