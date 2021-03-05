@@ -3,21 +3,21 @@ https://developer.arm.com/architectures/cpu-architecture/a-profile/exploration-t
 ("Download XML"), unpack, then run:
 
 ```
-% bin/instrs2asl.py --arch AArch64 ~/Downloads/A64_ISA_xml_v87A-2020-12/ISA_A64_xml_v87A-2020-12  --decode=0x39000000
+% bin/instrs2asl.py --arch AArch64 ~/Downloads/A64_ISA_xml_v87A-2020-12/ISA_A64_xml_v87A-2020-12  --decode=0x3dc00060
 Reading decoder /Users/thakis/Downloads/A64_ISA_xml_v87A-2020-12/ISA_A64_xml_v87A-2020-12/encodingindex.xml
-matching 00111001000000000000000000000000
+matching n = 00111101110000000000000001100000
 match at A64
-001 1100 1000000000000000000000000 
+001 1110 1110000000000000001100000 
   _ x1x0                         _ 
 match at ldst
-0011 1 0 0 10 0 000000 0000 00 0000000000 
+0011 1 1 0 11 1 000000 0000 00 0001100000 
 xx11 _ _ _ 1x _      _    _  _          _ 
 done: ldst_pos
   size = n bit 31 ... 30 = 00
-  V = n bit 26 ... 26 = 0
-  opc = n bit 23 ... 22 = 00
+  V = n bit 26 ... 26 = 1
+  opc = n bit 23 ... 22 = 11
   imm12 = n bit 21 ... 10 = 000000000000
-  Rn = n bit 9 ... 5 = 00000
+  Rn = n bit 9 ... 5 = 00011
   Rt = n bit 4 ... 0 = 00000
 ```
 
