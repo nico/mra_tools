@@ -1,3 +1,21 @@
+Get "Arm A64 Instruction Set Architecture" v Armv8-A 2020-12 from
+https://developer.arm.com/architectures/cpu-architecture/a-profile/exploration-tools
+("Download XML"), unpack, then run:
+
+```
+% bin/instrs2asl.py --arch AArch64 ~/Downloads/A64_ISA_xml_v87A-2020-12/ISA_A64_xml_v87A-2020-12  --decode=0x39000000
+Reading decoder /Users/thakis/Downloads/A64_ISA_xml_v87A-2020-12/ISA_A64_xml_v87A-2020-12/encodingindex.xml
+matching 00111001000000000000000000000000
+match at A64
+001 1100 1000000000000000000000000 
+  _ x1x0                         _ 
+match at ldst
+0011 1 0 0 10 0 000000 0000 00 0000000000 
+xx11 _ _ _ 1x _      _    _  _          _ 
+done: ldst_pos
+
+```
+
 # Tools to extract ARM's Machine Readable Architecture Specification.
 
 These tools unpack the ASL spec from inside the XML so that the spec is
