@@ -825,6 +825,8 @@ def main():
                         metavar='REGEX', default=None)
     parser.add_argument('--exclude', help='Regex to exclude instructions by name',
                         metavar='REGEX', default=None)
+    parser.add_argument('--decode', help='instruction to decode', type=lambda x: int(x, 0),
+                        metavar='encoded instruction, e.g. 0x39000000', default=None)
     args = parser.parse_args()
 
     alt_slice_syntax = args.altslicesyntax
@@ -960,6 +962,39 @@ def main():
         for canary in canaries:
             if canary in live:
                 checkCanaries(rcg, lambda x: x in shared, roots, canary, [])
+
+    if args.decode:
+      n = format(args.decode, '032b')
+      print(args.decode, n)
+
+      def match(pattern, num):
+        # Check if e.g. '100x' matches '1001'.
+        if pattern == '_': return True
+
+        assert pattern[0] == "'" and pattern[-1] == "'"
+        pattern = pattern[1:-1]
+
+        assert len(pattern) == len(num), '%s %s' % (pattern, num)
+        for (p, n) in zip(pattern, num):
+          if p == 'x': continue
+          if p != n: return False
+        return True
+
+      groups, classes = decoders[0]  # assume aarch64
+      root = groups
+      while root:
+        label, diagram, children = root
+
+        for dec, isGroup, c in children:
+          size, fields = diagram
+          print(size)
+          print(fields)
+          fieldbits = [n[::-1][start:start+len][::-1] for start, len in fields]
+          print(fieldbits)
+          print(dec)
+          if all(match(pattern, num) for pattern, num in zip(dec, fieldbits)):
+            print('match at', label)
+            root = c
 
     # print("Live:", " ".join(live))
     # print()
