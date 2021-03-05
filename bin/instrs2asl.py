@@ -965,14 +965,15 @@ def main():
 
     if args.decode:
       n = format(args.decode, '032b')
-      print(args.decode, n)
+      print('matching', n)
+
+      def stripquotes(s):
+        if s[0] == "'" and s[-1] == "'": return s[1:-1]
+        return s
 
       def match(pattern, num):
         # Check if e.g. '100x' matches '1001'.
         if pattern == '_': return True
-
-        assert pattern[0] == "'" and pattern[-1] == "'"
-        pattern = pattern[1:-1]
 
         assert len(pattern) == len(num), '%s %s' % (pattern, num)
         for (p, n) in zip(pattern, num):
@@ -981,20 +982,34 @@ def main():
         return True
 
       groups, classes = decoders[0]  # assume aarch64
-      root = groups
-      while root:
-        label, diagram, children = root
+      label, diagram, children = groups
+      while children:
 
         for dec, isGroup, c in children:
           size, fields = diagram
-          print(size)
-          print(fields)
+          assert size == '32', size
+
+          dec = [stripquotes(s) for s in dec]
+
           fieldbits = [n[::-1][start:start+len][::-1] for start, len in fields]
-          print(fieldbits)
-          print(dec)
           if all(match(pattern, num) for pattern, num in zip(dec, fieldbits)):
             print('match at', label)
-            root = c
+            #print(fields)
+
+            for f in fieldbits: print(f, end=' ')
+            print()
+            for i in range(len(fieldbits)): print('%*s' % (len(fieldbits[i]), dec[i]), end=' ')
+            print()
+            #print(fieldbits)
+            #print(dec)
+
+            if isGroup:
+              label, diagram, children = c
+            else:
+              label, allocated, predictable = c
+              print('done:', label)
+              children = []
+            break
 
     # print("Live:", " ".join(live))
     # print()
