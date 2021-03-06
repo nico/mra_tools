@@ -1,10 +1,13 @@
 Get "Arm A64 Instruction Set Architecture" v Armv8-A 2020-12 from
 https://developer.arm.com/architectures/cpu-architecture/a-profile/exploration-tools
-("Download XML"), unpack, then run:
+("Download XML"), unpack, run:
 
 ```
-% bin/instrs2asl.py --arch AArch64 ~/Downloads/A64_ISA_xml_v87A-2020-12/ISA_A64_xml_v87A-2020-12  --decode=0x3dc00060
-Reading decoder /Users/thakis/Downloads/A64_ISA_xml_v87A-2020-12/ISA_A64_xml_v87A-2020-12/encodingindex.xml
+% curl -o A64_ISA.tgz 'https://developer.arm.com/-/media/developer/products/architecture/armv8-a-architecture/2020-12/A64_ISA_xml_v87A-2020-12.tar.gz?revision=5bdf5097-da9a-482c-81da-987bc090be52&la=en&hash=5EEE40A003E3E68AB75B716C2E6A69CE054F3307'
+% tar xzf A64_ISA.tgz
+
+% bin/instrs2asl.py --arch AArch64 ISA_A64_xml_v87A-2020-12 --decode=0x3dc00060
+Reading decoder ISA_A64_xml_v87A-2020-12/encodingindex.xml
 matching n = 00111101110000000000000001100000
 match at A64
 001 1110 1110000000000000001100000 
