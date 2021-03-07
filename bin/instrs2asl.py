@@ -1008,11 +1008,28 @@ def main():
             else:
               label, allocated, predictable = c
               print('done:', label)
-              children = []
+              children = [] # Make outer loop terminate
               if allocated and predictable:
                 (fields, (ic, hdr, rows)) = classes[label]
+                fieldvalues = {}
                 for fnm, hi, wd in fields:
-                    print(' ', fnm, '= n bit', hi, '...', hi-wd+1, '=', n[::-1][hi-wd+1:hi+1][::-1])
+                    value = n[::-1][hi-wd+1:hi+1][::-1]
+                    print(' ', fnm, '= n bit', hi, '...', hi-wd+1, '=', value)
+                    fieldvalues[fnm] = value
+                hdrvalues = [fieldvalues[h] for h in hdr]
+                # FIXME: This is very similar to the group matching code above.
+                # could this be a group?
+
+                for (pats, nm, encname, undef, unpred, nop) in rows:
+                  pats = [stripquotes(s) for s in pats]
+                  if all(match(pattern, num)
+                         for pattern, num in zip(pats, hdrvalues)):
+                    if encname: nm = nm + " // " +encname
+                    if undef: nm = "__UNALLOCATED"
+                    if unpred: nm = "__UNPREDICTABLE"
+                    if nop: nm = "__NOP"
+                    print('   ', hdr, 'matches', pats)
+                    print('    => match at', nm)
             break
 
     # print("Live:", " ".join(live))

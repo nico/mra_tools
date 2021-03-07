@@ -22,6 +22,8 @@ done: ldst_pos
   imm12 = n bit 21 ... 10 = 000000000000
   Rn = n bit 9 ... 5 = 00011
   Rt = n bit 4 ... 0 = 00000
+    ['size', 'V', 'opc'] matches ['00', '1', '11']
+    => match at aarch64_memory_single_simdfp_immediate_unsigned // LDR_Q_ldst_pos
 ```
 
 # Tools to extract ARM's Machine Readable Architecture Specification.
